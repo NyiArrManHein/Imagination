@@ -1,4 +1,3 @@
-import { encrypt } from "@/app/lib/session";
 import { isEmail } from "@/app/lib/util";
 import {
   getUserByEmail,

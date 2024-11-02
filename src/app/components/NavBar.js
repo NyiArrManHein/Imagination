@@ -1,14 +1,17 @@
 "use client";
 import { FaSearch } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import Modal from "./Modal";
 import { useEffect, useState } from "react";
 import Register from "./Register";
 import LogIn from "./LogIn";
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
   const [isLogIn, setIsLogIn] = useState(false);
+  const { push } = useRouter();
 
   const updateLoginStatus = async () => {
     const res = await fetch("/api/auth/", {
@@ -25,11 +28,36 @@ export default function NavBar() {
     updateLoginStatus();
   }, []);
 
+  const logoutUser = async () => {
+    let msg = "";
+    const res = await fetch("/api/user/logout", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const { message } = await res.json();
+    msg = message;
+    if (res.ok) {
+      setIsLogIn(false);
+      push("/");
+      console.log(msg);
+    } else {
+      setIsLogIn(true);
+    }
+  };
+
   return (
     <div className="flex flex-row justify-evenly items-center p-4">
       {isLogIn ? (
         <div className="grid grid-cols-2 gap-2">
-          <span>Home</span> <span className="me-2">Create</span>
+          <span>Home</span>{" "}
+          <span
+            onClick={() => push("/create/")}
+            className="me-2 cursor-pointer"
+          >
+            Create
+          </span>
         </div>
       ) : (
         <span className="me-2">Imagination</span>
@@ -45,8 +73,21 @@ export default function NavBar() {
         ></input>
       </div>
       {isLogIn ? (
-        <div>
+        <div className="grid grid-cols-2 gap-2">
           <CgProfile size={30} />
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="cursor-pointer dropdown-toggle">
+              <MdKeyboardArrowDown size={30} />
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            >
+              <li>
+                <a onClick={logoutUser}>Log out</a>
+              </li>
+            </ul>
+          </div>
         </div>
       ) : (
         <div>

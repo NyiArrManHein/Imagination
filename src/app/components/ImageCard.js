@@ -1,14 +1,9 @@
 import Image from "next/image";
 
-export default function ImageCard() {
+export default function ImageCard({ post }) {
   return (
-    <div>
-      <Image
-        className="rounded-2xl"
-        src="/naruto.jpg"
-        width={250}
-        height={250}
-      />
+    <div className="relative w-full h-56">
+      <Image className="rounded-2xl" alt="" src={post.imageUrl} fill />
     </div>
   );
 }

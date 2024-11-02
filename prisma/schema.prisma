@@ -24,7 +24,29 @@ model User{
   verified Boolean @default(false)
   verifyToken String? @unique
   verifyTokenExpire DateTime?
+  posts Post[]
  }
+
+
+model Post{
+  id Int @id @default(autoincrement())
+  title String? 
+  description String?
+  hashtags String?  
+  imageUrl String
+  creator User @relation(fields: [creatorId],references: [id],onDelete: Cascade)
+  creatorId Int
+  createdAt DateTime? @default(now())
+}
+
+//  model Images{
+//   id Int @id @default(autoincrement())
+//   imageUrl String @db.VarChar(255)
+//   creator User @relation(fields: [creatorId],references: [id],onDelete: Cascade)
+//   creatorId Int
+//  }
+
+
 
 enum Role {
   USER

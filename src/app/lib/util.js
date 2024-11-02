@@ -1,9 +1,10 @@
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 
-import prisma from "../db";
 import { getUserBySessionId } from "../query/user/query";
 import { cookies } from "next/headers";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebaseConfig";
 export function generateToken() {
   return crypto.randomBytes(16).toString("hex");
 }
@@ -53,4 +54,24 @@ export async function isAuth() {
   }
 
   return { isLoggedIn: false, user };
+}
+
+export async function firebaseUpload(imageFile) {
+  let imageUrl = null;
+
+  if (imageFile) {
+    try {
+      const imageFileName = Date.now().toString() + "_" + imageFile.name;
+      const storageRef = ref(storage, `images/${imageFileName}`);
+      await uploadBytes(storageRef, imageFile);
+      console.log("Upload successful");
+      imageUrl = await getDownloadURL(storageRef);
+    } catch (error) {
+      console.error("Error uploading the file", error);
+    }
+  } else {
+    console.log("There is no file");
+  }
+
+  return imageUrl;
 }
