@@ -3,7 +3,12 @@ import nodemailer from "nodemailer";
 
 import { getUserBySessionId } from "../query/user/query";
 import { cookies } from "next/headers";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../firebaseConfig";
 export function generateToken() {
   return crypto.randomBytes(16).toString("hex");
@@ -64,14 +69,32 @@ export async function firebaseUpload(imageFile) {
       const imageFileName = Date.now().toString() + "_" + imageFile.name;
       const storageRef = ref(storage, `images/${imageFileName}`);
       await uploadBytes(storageRef, imageFile);
-      console.log("Upload successful");
+      // console.log("Upload successful");
       imageUrl = await getDownloadURL(storageRef);
     } catch (error) {
-      console.error("Error uploading the file", error);
+      // console.error("Error uploading the file", error);
     }
   } else {
-    console.log("There is no file");
+    // console.log("There is no file");
   }
 
   return imageUrl;
+}
+
+export async function firebaseDelete(imageUrl) {
+  const pathMatch = imageUrl.match(/o\/(.*?)\?alt=media/);
+  const imagePath = pathMatch ? pathMatch[1].replace(/%2F/g, "/") : null;
+  if (!imagePath) {
+    console.error("Invalid image URL:", imageUrl);
+    return false;
+  }
+  const storageRef = ref(storage, imagePath);
+  try {
+    await deleteObject(storageRef);
+    console.log("Image deleted successfully");
+    return true;
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    return false;
+  }
 }

@@ -17,7 +17,7 @@ export default function Verify({ params }) {
         });
         const { message, isVerified } = await res.json();
         if (res.ok) {
-          console.log("UI isVerified", isVerified);
+          // console.log("UI isVerified", isVerified);
           setIsVerified(isVerified);
           toast(message);
         } else {

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { FaArrowAltCircleUp } from "react-icons/fa";
 
-export default function ImageUpload({ setImageFile }) {
-  const [imagePreview, setImagePreview] = useState(null);
+export default function ImageUpload({
+  imagePreview,
+  setImagePreview,
+  setImageFile,
+}) {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {

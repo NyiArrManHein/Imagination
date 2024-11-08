@@ -50,9 +50,9 @@ export async function insertUser(username, email, password, host) {
       } else {
         msg = "Failed to register the user.";
       }
-      console.log("User created");
+      // console.log("User created");
     } catch (error) {
-      console.log("User not created");
+      // console.log("User not created");
     }
   } else {
     msg = `User already exist with ${username} or ${email}`;
@@ -71,7 +71,7 @@ export async function getUserByVerifyTokenAndVerified(verifyToken, verified) {
         },
       },
     });
-    console.log("DbGetUser", user);
+    // console.log("DbGetUser", user);
     return user;
   }
   return undefined;
@@ -96,7 +96,7 @@ export async function updateVerifiedByVerifyToken(verifyToken) {
       },
     });
 
-    console.log("DbUpdateUser", data);
+    // console.log("DbUpdateUser", data);
     return data;
   }
   return undefined;

@@ -16,7 +16,7 @@ export default function LogIn({ id, updateLoginStatus }) {
       password: formData.get("password"),
     };
     if (data.username_or_email && data.password) {
-      const res = await fetch("api/user/login", {
+      const res = await fetch("/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

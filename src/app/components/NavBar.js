@@ -41,7 +41,7 @@ export default function NavBar() {
     if (res.ok) {
       setIsLogIn(false);
       push("/");
-      console.log(msg);
+      // console.log(msg);
     } else {
       setIsLogIn(true);
     }

@@ -39,7 +39,7 @@ export default function test() {
         );
         setImages(urls);
       } catch (error) {
-        console.error("Error fetching images", error);
+        // console.error("Error fetching images", error);
       }
     };
     fetchImages();
@@ -53,7 +53,7 @@ export default function test() {
       // const url = await getDownloadURL(storageRef);
       toast("Image Uploaded Successfully");
     } catch (error) {
-      console.error("Error uploading the file", error);
+      // console.error("Error uploading the file", error);
       toast("Image Upload Failed");
     }
   };

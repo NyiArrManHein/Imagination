@@ -15,18 +15,18 @@ export async function POST(request) {
       if (verifiedUser) {
         status = 200;
         message = "User verified successfully.";
-        console.log("api user verified");
+        // console.log("api user verified");
         isVerified = true;
       } else {
         status = 400;
         message = "User not verified";
-        console.log("api user not verified");
+        // console.log("api user not verified");
       }
     }
   } catch (error) {
     status = 500;
     message = "Internal Server Error";
-    console.log("api server error");
+    // console.log("api server error");
   }
   return new Response(JSON.stringify({ message, isVerified }), {
     status: status,

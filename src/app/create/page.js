@@ -12,6 +12,7 @@ export default function create() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [hashtags, setHashtags] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -50,44 +51,46 @@ export default function create() {
         className="absolute top-0 right-0 border rounded-3xl text-white bg-red-500 py-2 cursor-pointer"
       /> */}
       <div className="w-full h-20 relative">
-        <input
-          type="submit"
-          value="Publish"
-          className="absolute top-0 right-0 border rounded-3xl text-white bg-red-500 p-3 cursor-pointer"
-        />
-      </div>
-      <div className="grid xl:grid-cols-2 lg:grid-cols-1">
-        <ImageUpload setImageFile={setImageFile} />
-        <div className="grid grid-cols-1">
-          <Input
-            id="title"
-            label="Title"
-            type="text"
-            value={title}
-            controller={setTitle}
-          />
-
-          <Input
-            id="description"
-            label="Description"
-            type="text"
-            value={description}
-            controller={setDescription}
-          />
-
-          <Input
-            id="hashtags"
-            label="Tagged topics"
-            value={hashtags}
-            controller={setHashtags}
-          />
-          {/* 
+        {imageFile && (
           <input
             type="submit"
             value="Publish"
-            className="border rounded-3xl text-white bg-red-500 py-2 mt-3 cursor-pointer"
-          /> */}
-        </div>
+            className="absolute top-0 right-0 border rounded-3xl text-white bg-red-500 p-3 cursor-pointer"
+          />
+        )}
+      </div>
+      <div className="grid xl:grid-cols-2 lg:grid-cols-1">
+        <ImageUpload
+          imagePreview={imagePreview}
+          setImagePreview={setImagePreview}
+          setImageFile={setImageFile}
+        />
+        {imageFile && (
+          <div className="grid grid-cols-1">
+            <Input
+              id="title"
+              label="Title"
+              type="text"
+              value={title}
+              controller={setTitle}
+            />
+
+            <Input
+              id="description"
+              label="Description"
+              type="text"
+              value={description}
+              controller={setDescription}
+            />
+
+            <Input
+              id="hashtags"
+              label="Tagged topics"
+              value={hashtags}
+              controller={setHashtags}
+            />
+          </div>
+        )}
       </div>
     </form>
   );
